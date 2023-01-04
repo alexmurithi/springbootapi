@@ -19,7 +19,7 @@ public class EmployeeController {
 
     @PostMapping
     public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee){
-        return new ResponseEntity<Employee>(employeeService.addEmployee(employee), HttpStatus.CREATED);
+        return new ResponseEntity<>(employeeService.addEmployee(employee), HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -28,7 +28,11 @@ public class EmployeeController {
     }
 
     @GetMapping(path = "{id}")
-    public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id){
-        return new ResponseEntity<>(employeeService.getEmployeeById(id),HttpStatus.OK);
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable long id){
+        return ResponseEntity.ok(employeeService.getEmployeeById(id));
+    }
+    @PutMapping(path = "{id}")
+    public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee, @PathVariable long id){
+        return ResponseEntity.ok(employeeService.updateEmployee(employee,id));
     }
 }

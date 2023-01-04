@@ -6,6 +6,7 @@ import com.springapiapp.api.repository.EmployeeRepository;
 import com.springapiapp.api.service.EmployeeService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -27,8 +28,22 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee getEmployeeById(Long id){
-        return employeeRepository.findById(id).orElseThrow(() ->
-                new ResourceNotFoundException("Employee", "Id", id));
+    public Employee getEmployeeById(long id){
+        return employeeRepository.findById(id).orElseThrow(
+                ()->new ResourceNotFoundException("Employee", "Id", id));
+    }
+
+    @Override
+    public Employee updateEmployee(Employee employee, long id) {
+        Employee existingEmployee = employeeRepository.findById(id).orElseThrow(
+                ()->new ResourceNotFoundException("Employee", "Id", id));
+
+        existingEmployee.setFirstName(employee.getFirstName());
+        existingEmployee.setLastName(employee.getLastName());
+        existingEmployee.setEmail(employee.getEmail());
+        existingEmployee.setUpdatedAt(LocalDateTime.now());
+
+        employeeRepository.save(existingEmployee);
+        return existingEmployee;
     }
 }
