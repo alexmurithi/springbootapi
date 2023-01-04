@@ -1,5 +1,6 @@
 package com.springapiapp.api.service.impl;
 
+import com.springapiapp.api.exception.ResourceNotFoundException;
 import com.springapiapp.api.model.Employee;
 import com.springapiapp.api.repository.EmployeeRepository;
 import com.springapiapp.api.service.EmployeeService;
@@ -23,5 +24,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public List<Employee> getEmployees() {
         return employeeRepository.findAll();
+    }
+
+    @Override
+    public Employee getEmployeeById(Long id){
+        return employeeRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Employee", "Id", id));
     }
 }
