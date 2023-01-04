@@ -6,7 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/employees")
@@ -34,5 +36,14 @@ public class EmployeeController {
     @PutMapping(path = "{id}")
     public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee, @PathVariable long id){
         return ResponseEntity.ok(employeeService.updateEmployee(employee,id));
+    }
+
+    @DeleteMapping(path = "{id}")
+    public ResponseEntity<Map<String,Boolean>> deleteEmployee(@PathVariable long id){
+        employeeService.deleteEmployee(id);
+
+        Map<String,Boolean> response = new HashMap<>();
+        response.put("Operation Successful!",Boolean.TRUE);
+        return ResponseEntity.ok(response);
     }
 }
