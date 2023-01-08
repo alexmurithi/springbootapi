@@ -2,7 +2,11 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.0.1'
     id 'io.spring.dependency-management' version '1.1.0'
+    id 'com.avast.gradle.docker-compose' version '0.16.11'
+    id 'com.google.cloud.tools.jib' version '3.0.0'
 }
+
+apply plugin: 'docker-compose'
 
 group = 'com.springapiapp'
 version = '0.0.1-SNAPSHOT'
@@ -19,6 +23,17 @@ dependencies {
     runtimeOnly 'com.mysql:mysql-connector-j'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+jib {
+    to {
+        image = "springboot-app:${project.version}"
+    }
+
+}
+
+dockerCompose{
+    useComposeFiles = ['compose.yaml']
 }
 
 tasks.named('test') {
